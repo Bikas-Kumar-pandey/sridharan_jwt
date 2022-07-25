@@ -67,8 +67,8 @@ public class ArticleService {
         Category category = categoryRepo.findById(categoryId).get();
 
         ArticleRes articleRes = entityToDto(article);
-        CategoryResponse response=new CategoryResponse();
 
+        CategoryResponse response=new CategoryResponse();
         response.setCategoryId(categoryId);
         response.setCategory(category.getCategoryName());
 
@@ -88,6 +88,7 @@ public class ArticleService {
         Category category = categoryRepo.findById(categoryId).get();
 
         List<ArticleRes> articleResList=new ArrayList<>();
+
         for(Article article:articles){
             ArticleRes res = entityToDto(article);
             articleResList.add(res);
@@ -97,7 +98,6 @@ public class ArticleService {
 
         response.setCategoryId(categoryId);
         response.setCategory(category.getCategoryName());
-
         response.setArticles(articleResList);
 
 
@@ -121,18 +121,13 @@ public class ArticleService {
 
         Article save = articleRepo.save(article);
 
-
-
         ArticleRes articleRes = entityToDto(save);
 
-
         CategoryResponse response=new CategoryResponse();
-
         response.setCategoryId(categoryId);
         response.setCategory(category.getCategoryName());
 
         List<ArticleRes> articleResList=new ArrayList<>();
-
         articleResList.add(articleRes);
         response.setArticles(articleResList);
 
