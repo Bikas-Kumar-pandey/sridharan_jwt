@@ -109,7 +109,7 @@ public class ArticleService {
             throw new RuntimeException("Category not found with id : "+categoryId);
         }
         if(!articleRepo.existsById(articleId)){
-            throw new RuntimeException("Article not found with id : "+categoryId);
+            throw new RuntimeException("Article not found with id : "+articleId);
         }
         Article article = articleRepo.findById(articleId).get();
         Category category = categoryRepo.findById(categoryId).get();
@@ -146,7 +146,7 @@ public class ArticleService {
             throw new RuntimeException("Category not found with id : "+categoryId);
         }
         if(!articleRepo.existsById(articleId)){
-            throw new RuntimeException("Article not found with id : "+categoryId);
+            throw new RuntimeException("Article not found with id : "+articleId);
         }
         Article article = articleRepo.findById(articleId).get();
         articleRepo.delete(article);
