@@ -1,10 +1,9 @@
 package com.article.task21.controller;
 
 import com.article.task21.dto.CategoryReq;
-import com.article.task21.dto.CategoryRes;
 import com.article.task21.entity.Category;
+import com.article.task21.exception.Response;
 import com.article.task21.service.CategoryService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,27 +18,27 @@ public class CategoryController {
     }
 
     @PostMapping("/category")
-    public CategoryRes createCategory(@RequestBody CategoryReq req){
+    public Category createCategory(@RequestBody CategoryReq req){
         return service.createCategory(req);
     }
 
     @GetMapping("/category/{id}")
-    public CategoryRes getById(@PathVariable int id){
-        return service.findOneById(id);
+    public Category getById(@PathVariable int id){
+        return service.getOneById(id);
     }
 
     @GetMapping("/category")
-    public List<CategoryRes> getAllCategory(){
-        return service.findAllCategory();
+    public List<Category> getAllCategory(){
+        return service.getAll();
     }
 
     @PutMapping("/category/{id}")
-    public CategoryRes updateCategory(@PathVariable int id,@RequestBody CategoryReq req){
+    public Category updateCategory(@PathVariable int id,@RequestBody CategoryReq req){
         return service.updateCategory(id,req);
     }
 
     @DeleteMapping("/category/{id}")
-    public ResponseEntity<?> deleteCategory(@PathVariable int id){
+    public Response deleteCategory(@PathVariable int id){
         return service.deleteCategory(id);
     }
 

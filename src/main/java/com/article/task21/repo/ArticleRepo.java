@@ -6,5 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ArticleRepo extends JpaRepository<Article ,Integer> {
-    void deleteByCategory(int id);
+
+    List<Article> findByCategoryId(int category_id);
 }
