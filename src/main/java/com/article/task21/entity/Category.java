@@ -2,12 +2,14 @@ package com.article.task21.entity;
 
 import lombok.Data;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 
 @Entity
 @Data
 @SQLDelete(sql = "UPDATE category SET deleted = true WHERE id=?")
+@Where(clause = "deleted=false")
 public class Category implements Comparable<Category>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -3,6 +3,7 @@ package com.article.task21.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +14,7 @@ import java.sql.Timestamp;
 @Entity
 @Data
 @SQLDelete(sql = "UPDATE article SET deleted = true WHERE id=?")
+@Where(clause = "deleted=false")
 public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
