@@ -8,6 +8,7 @@ import com.article.task21.dto.UserResponse;
 import com.article.task21.jwtutil.JwtUtil;
 import com.article.task21.service.MyUserDetailsService;
 import com.article.task21.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,14 +24,14 @@ public class UserController {
 
     private final MyUserDetailsService myUserDetailsService;
 
-    private final AuthenticationManager authenticationManager;
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     private final JwtUtil jwtUtil;
 
-    public UserController(UserService service, MyUserDetailsService myUserDetailsService, AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
+    public UserController(UserService service, MyUserDetailsService myUserDetailsService, JwtUtil jwtUtil) {
         this.service = service;
         this.myUserDetailsService = myUserDetailsService;
-        this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
     }
 

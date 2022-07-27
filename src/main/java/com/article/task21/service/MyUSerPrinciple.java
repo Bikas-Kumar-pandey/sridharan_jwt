@@ -13,6 +13,7 @@ public class MyUSerPrinciple implements UserDetails {
 
     private final User user;
     public MyUSerPrinciple(User user) {
+        super();
         this.user = user;
     }
 
