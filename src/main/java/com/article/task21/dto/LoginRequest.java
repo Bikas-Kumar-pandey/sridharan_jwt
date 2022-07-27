@@ -1,4 +1,4 @@
-package com.article.task21.entity;
+package com.article.task21.dto;
 
 import lombok.Data;
 

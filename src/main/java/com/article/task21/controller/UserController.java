@@ -1,11 +1,17 @@
 package com.article.task21.controller;
 
 
+import com.article.task21.dto.LoginRequest;
 import com.article.task21.entity.Address;
-import com.article.task21.entity.LoginRequest;
-import com.article.task21.entity.UserRequest;
-import com.article.task21.entity.UserResponse;
+import com.article.task21.dto.UserRequest;
+import com.article.task21.dto.UserResponse;
+import com.article.task21.jwtutil.JwtUtil;
+import com.article.task21.service.MyUserDetails;
 import com.article.task21.service.UserService;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,8 +21,17 @@ public class UserController {
 
     private final UserService service;
 
-    public UserController(UserService service) {
+    private final MyUserDetails myUserDetails;
+
+    private final AuthenticationManager authenticationManager;
+
+    private final JwtUtil jwtUtil;
+
+    public UserController(UserService service, MyUserDetails myUserDetails, AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
         this.service = service;
+        this.myUserDetails = myUserDetails;
+        this.authenticationManager = authenticationManager;
+        this.jwtUtil = jwtUtil;
     }
 
 
@@ -40,10 +55,19 @@ public class UserController {
           return  service.addAddress(address,id);
     }
 
-    @PostMapping("/login")
-    public Object login(@RequestBody LoginRequest request){
-        return service.validateLogin(request);
+    @PostMapping("/authenticate")
+    public String authenticate(@RequestBody LoginRequest request){
+        try {
+            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken=new UsernamePasswordAuthenticationToken(request.getUsername(),request.getPassword());
+            authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+        }catch (BadCredentialsException e){
+            throw new RuntimeException("Invalid username/password");
+        }
+        UserDetails userDetails=myUserDetails.loadUserByUsername(request.getUsername());
+        return jwtUtil.generateToken(userDetails);
     }
+
+
 
 
 }

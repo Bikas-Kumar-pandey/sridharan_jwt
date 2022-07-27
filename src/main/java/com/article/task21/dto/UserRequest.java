@@ -1,11 +1,10 @@
-package com.article.task21.entity;
+package com.article.task21.dto;
 
 import lombok.Data;
 
 @Data
 public class UserRequest {
-    private String firstName;
-    private String lastName;
+    private String name;
     private String mobile;
     private String mail;
     private String password;
