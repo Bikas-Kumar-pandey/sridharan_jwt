@@ -6,7 +6,7 @@ import com.article.task21.entity.Address;
 import com.article.task21.dto.UserRequest;
 import com.article.task21.dto.UserResponse;
 import com.article.task21.jwtutil.JwtUtil;
-import com.article.task21.service.MyUserDetails;
+import com.article.task21.service.MyUserDetailsService;
 import com.article.task21.service.UserService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -21,21 +21,21 @@ public class UserController {
 
     private final UserService service;
 
-    private final MyUserDetails myUserDetails;
+    private final MyUserDetailsService myUserDetailsService;
 
     private final AuthenticationManager authenticationManager;
 
     private final JwtUtil jwtUtil;
 
-    public UserController(UserService service, MyUserDetails myUserDetails, AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
+    public UserController(UserService service, MyUserDetailsService myUserDetailsService, AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
         this.service = service;
-        this.myUserDetails = myUserDetails;
+        this.myUserDetailsService = myUserDetailsService;
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
     }
 
 
-    @PostMapping("/user")
+    @PostMapping("/user/register")
     public UserResponse register(@RequestBody UserRequest request){
         return service.registerUser(request);
     }
@@ -63,7 +63,7 @@ public class UserController {
         }catch (BadCredentialsException e){
             throw new RuntimeException("Invalid username/password");
         }
-        UserDetails userDetails=myUserDetails.loadUserByUsername(request.getUsername());
+        UserDetails userDetails= myUserDetailsService.loadUserByUsername(request.getUsername());
         return jwtUtil.generateToken(userDetails);
     }
 

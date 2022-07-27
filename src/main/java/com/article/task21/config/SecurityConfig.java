@@ -1,6 +1,7 @@
 package com.article.task21.config;
 
 import com.article.task21.filter.JwtFilter;
+import com.article.task21.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -22,11 +23,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserDetailsService userDetailsService;
+    private final MyUserDetailsService userDetailsService;
 
     private final JwtFilter jwtFilter;
 
-    public SecurityConfig(UserDetailsService userDetailsService, JwtFilter jwtFilter) {
+    public SecurityConfig(MyUserDetailsService userDetailsService, JwtFilter jwtFilter) {
         this.userDetailsService = userDetailsService;
         this.jwtFilter = jwtFilter;
     }
@@ -50,7 +51,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .authorizeRequests().antMatchers(HttpMethod.POST,"/authenticate","/user").permitAll()
+                .authorizeRequests().antMatchers("/authenticate","/user/register").permitAll()
+                .and()
+                .authorizeRequests().anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

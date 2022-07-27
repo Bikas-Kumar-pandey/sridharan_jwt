@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class MyUserDetails implements UserDetailsService {
+public class MyUserDetailsService implements UserDetailsService {
 
     private final UserRepo userRepo;
 
-    public MyUserDetails(UserRepo userRepo) {
+    public MyUserDetailsService(UserRepo userRepo) {
         this.userRepo = userRepo;
     }
 
